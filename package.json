@@ -21,8 +21,8 @@
     "bourbon": "^4.2.7",
     "gulp": "^3.9.1",
     "vinyl-source-stream": "^1.1.0",
-    "browserify": "^13.1.1",
-    "google-closure-compiler": "^20161201.0.0",
+    "browserify": "^14.4.0",
+    "google-closure-compiler": "^20170521.0.0",
     "gulp-strip-comments": "^2.4.3"
   },
   "scripts": {
