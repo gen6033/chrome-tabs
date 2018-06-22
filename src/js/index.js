@@ -546,7 +546,7 @@
         $tab.addClass('-just-added');
         setTimeout(() => $tab.removeClass('-just-added'), 500);
 
-        this.$obj.trigger('tabAdded', [$tab, this]);
+        this.$obj.trigger('tabAdded', [$tab, props, this]);
 
         this.updateTab($tab, props);
 
@@ -742,7 +742,7 @@
     }
 
     addEvents() {
-      this.$parentObj.on('tabAdded.chrome-tabs', (e, $tab) => this.addView($tab));
+      this.$parentObj.on('tabAdded.chrome-tabs', (e, $tab, props) => this.addView($tab, props));
       this.$parentObj.on('tabBeingRemoved.chrome-tabs', (e, $tab) => this.removeView(undefined, $tab));
 
       this.$parentObj.on('tabDragMoved.chrome-tabs', (e, $tab, locations) => this.setViewIndex(undefined, locations.prevIndex, locations.newIndex));
@@ -754,7 +754,7 @@
       this.$parentObj.off('.chrome-tabs');
     }
 
-    addView($tab) {
+    addView($tab, props) {
       if (!($tab instanceof jQuery) || !$tab.length) {
         throw 'Missing or invalid $tab.';
       }
@@ -763,6 +763,11 @@
       let $view = $( // Template based on view type.
         this.settings.type === 'webviews' ? webViewTemplate : iframeViewTemplate
       );
+      props = $.extend(true, {}, this.settings.defaultProps, props);
+      let partition = props.viewAttrs.partition;
+      if(partition) {
+        $view.attr("partition", partition);
+      }
       $view.data('urlCounter', 0); // Initialize.
       this.$content.append($view); // Add to DOM.
 
